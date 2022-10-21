@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../widgets/text_widget.dart';
 
 class CardHero extends StatelessWidget {
-  final String pathImage;
+  final String imgpath;
   final String textCard;
 
-  const CardHero({super.key, required this.pathImage, required this.textCard});
+  const CardHero({super.key, required this.imgpath, required this.textCard});
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +16,13 @@ class CardHero extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(24)),
       ),
       child: Stack(children: [
-        Ink.image(
-          image: NetworkImage(pathImage),
+        Image(
+          image: ExactAssetImage(imgpath),
           fit: BoxFit.cover,
           height: 600,
-          alignment: Alignment.center,
         ),
         Positioned(
-            bottom: 16, right: 16, left: 16, child: TextApp(text: textCard))
+            bottom: 16, right: 16, left: 10, child: TextApp(text: textCard))
       ]),
     );
   }

@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BackgroundPainter extends CustomPainter {
-  Color colorShape = Color.fromARGB(255, 98, 0, 0);
-  BackgroundPainter();
+  final Color colorShape;
+  BackgroundPainter(this.colorShape);
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint();
@@ -18,10 +17,6 @@ class BackgroundPainter extends CustomPainter {
     trianglePath.lineTo(0, size.height);
     paint.color = colorShape;
     canvas.drawPath(trianglePath, paint);
-  }
-
-  void setColor(Color colorShape) {
-    colorShape = colorShape;
   }
 
   @override
