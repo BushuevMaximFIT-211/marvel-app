@@ -3,5 +3,5 @@
 
 
 <p align="center">
-  <img src="bin/assets/preview.gif" width=300></img>
+  <img src="lib/assets/preview.gif" width=300></img>
 </p>
