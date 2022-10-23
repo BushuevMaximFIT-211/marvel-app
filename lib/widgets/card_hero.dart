@@ -1,29 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:marvel_app/api_utils/classes/hero_marvel.dart';
 import 'text_widget.dart';
 
 class CardHero extends StatelessWidget {
-  final String imgpath;
-  final String textCard;
+  final HeroMarvel hero;
 
-  const CardHero({super.key, required this.imgpath, required this.textCard});
+  const CardHero({super.key, required this.hero});
 
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Card(
-      clipBehavior: Clip.antiAlias,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(24)),
-      ),
-      child: Stack(children: [
-        Image(
-          height: 555,
-          width: 400,
-          image: ExactAssetImage(imgpath),
-          fit: BoxFit.cover,
+        child: GestureDetector(
+            onLongPress: () => _goToDetailsPage(context, hero),
+            child: Card(
+                clipBehavior: Clip.antiAlias,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(24)),
+                ),
+                child: Hero(
+                  tag: hero.name,
+                  child: Stack(children: [
+                    Image(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      image: ExactAssetImage(hero.path),
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                        bottom: 16, left: 10, child: TextApp(text: hero.name))
+                  ]),
+                ))));
+  }
+
+  void _goToDetailsPage(BuildContext context, HeroMarvel hero) {
+    Feedback.forLongPress(context);
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (BuildContext context) => Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+          foregroundColor: Color.fromRGBO(0, 0, 0, 0),
+          shadowColor: Color.fromRGBO(0, 0, 0, 0),
+          iconTheme: IconThemeData(color: Colors.white),
         ),
-        Positioned(bottom: 16, left: 10, child: TextApp(text: textCard))
-      ]),
+        body: Hero(
+          tag: hero.name,
+          child: Stack(children: [
+            Image(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              image: ExactAssetImage(hero.path),
+              fit: BoxFit.cover,
+            ),
+            Positioned(bottom: 16, left: 10, child: TextApp(text: hero.name))
+          ]),
+        ),
+      ),
     ));
   }
 }
