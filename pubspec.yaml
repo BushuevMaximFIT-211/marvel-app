@@ -17,11 +17,22 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^3.0.1
   cached_network_image: ^3.2.2
+  
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/marvel_icon.webp"
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.10.0
+  flutter_app_name: ^0.1.0
+
+flutter_app_name:
+  name: "Choose your hero"
 
 flutter:
   uses-material-design: true
