@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_app/api_utils/classes/hero_marvel.dart';
+import '../pages/detail_page.dart';
 import 'text_widget.dart';
 
 class CardHero extends StatelessWidget {
@@ -17,48 +18,37 @@ class CardHero extends StatelessWidget {
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(24)),
                 ),
-                child: Hero(
-                  tag: hero.name,
-                  child: Stack(children: [
-                    Image(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      image: ExactAssetImage(hero.path),
-                      fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                        bottom: 16, left: 10, child: TextApp(text: hero.name))
-                  ]),
-                ))));
+                child: HeroWidget(hero: hero))));
   }
 
   void _goToDetailsPage(BuildContext context, HeroMarvel hero) {
     Feedback.forLongPress(context);
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (BuildContext context) => Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
-          foregroundColor: const Color.fromRGBO(0, 0, 0, 0),
-          shadowColor: const Color.fromRGBO(0, 0, 0, 0),
-          iconTheme: const IconThemeData(color: Colors.white),
+        builder: (BuildContext context) => DetailPage(hero: hero)));
+  }
+}
+
+class HeroWidget extends StatelessWidget {
+  const HeroWidget({
+    Key? key,
+    required this.hero,
+  }) : super(key: key);
+
+  final HeroMarvel hero;
+
+  @override
+  Widget build(BuildContext context) {
+    return Hero(
+      tag: hero.name,
+      child: Stack(children: [
+        Image(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          image: ExactAssetImage(hero.path),
+          fit: BoxFit.cover,
         ),
-        body: Hero(
-          tag: hero.name,
-          child: Stack(children: [
-            Image(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              image: ExactAssetImage(hero.path),
-              fit: BoxFit.cover,
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: TextApp(text: '${hero.name}\n${hero.info}'),
-            )
-          ]),
-        ),
-      ),
-    ));
+        Positioned(bottom: 16, left: 10, child: TextApp(text: hero.name))
+      ]),
+    );
   }
 }
