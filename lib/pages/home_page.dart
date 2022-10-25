@@ -18,27 +18,30 @@ class _HomePageState extends State<HomePage> {
   final List<HeroMarvel> characterList = const [
     HeroMarvel(
         name: 'Iron Man',
-        path: 'assets/iron-man.jpg',
+        path:
+            'https://www.xtrafondos.com/wallpapers/vertical/iron-man-los-vengadores-4-7099.jpg',
         Color.fromARGB(255, 49, 68, 153),
         'I AM IRON MAN'),
     HeroMarvel(
         name: 'Deadpool',
-        path: 'assets/deadpool.jpg',
+        path:
+            'https://i.pinimg.com/736x/93/0f/9e/930f9e8a3850391ec1a2d5e201a95404.jpg',
         Color.fromARGB(255, 201, 64, 64),
         'You might be wondering why the red suit. Well, that’s so bad guys don’t see me bleed.'),
     HeroMarvel(
         name: 'Dr Strange',
-        path: 'assets/dr-strange.jpg',
+        path:
+            'https://i.pinimg.com/originals/e6/25/65/e62565ab99a0c36d4db5583b0ef01339.jpg',
         Color.fromARGB(255, 112, 93, 133),
         'Look at me. Stretching one moment out into a thousand just so I can watch the snow.'),
     HeroMarvel(
         name: 'Groot',
-        path: 'assets/groot.jpg',
+        path: 'https://wallpaperaccess.com/full/2903504.jpg',
         Color.fromARGB(255, 76, 148, 88),
         'I AM GROOT'),
     HeroMarvel(
         name: 'Spider Man',
-        path: 'assets/spider-man.jpg',
+        path: 'https://t2.tudocdn.net/634144?w=1920',
         Color.fromARGB(255, 185, 200, 208),
         'Have no fear! Spidey is here!'),
   ];

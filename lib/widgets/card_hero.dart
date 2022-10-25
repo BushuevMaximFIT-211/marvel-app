@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_app/api_utils/classes/hero_marvel.dart';
+import '../api_utils/methods/image_from_net.dart';
 import '../pages/detail_page.dart';
 import 'text_widget.dart';
 
@@ -14,6 +15,7 @@ class CardHero extends StatelessWidget {
         child: GestureDetector(
             onLongPress: () => _goToDetailsPage(context, hero),
             child: Card(
+                color: Colors.grey.shade800,
                 clipBehavior: Clip.antiAlias,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(24)),
@@ -41,12 +43,7 @@ class HeroWidget extends StatelessWidget {
     return Hero(
       tag: hero.name,
       child: Stack(children: [
-        Image(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          image: ExactAssetImage(hero.path),
-          fit: BoxFit.cover,
-        ),
+        imageFromNetwork(context, hero.path),
         Positioned(bottom: 16, left: 10, child: TextApp(text: hero.name))
       ]),
     );

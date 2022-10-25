@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_app/api_utils/classes/hero_marvel.dart';
+import 'package:marvel_app/api_utils/methods/image_from_net.dart';
 
 import '../widgets/text_widget.dart';
 
@@ -20,12 +21,7 @@ class DetailPage extends StatelessWidget {
       body: Hero(
         tag: hero.name,
         child: Stack(children: [
-          Image(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            image: ExactAssetImage(hero.path),
-            fit: BoxFit.cover,
-          ),
+          imageFromNetwork(context, hero.path),
           Align(
             alignment: Alignment.bottomLeft,
             child: TextApp(text: '${hero.name}\n${hero.info}'),
