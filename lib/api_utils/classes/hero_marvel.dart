@@ -4,9 +4,10 @@ class HeroMarvel {
   final String name;
   final Color color;
   final String path;
-  final String info = '';
+  final String info;
 
-  const HeroMarvel(this.color, {required this.name, required this.path});
+  const HeroMarvel(this.color, this.info,
+      {required this.name, required this.path});
 
   // factory HeroMarvel.fromJson(Map<String, dynamic> json) {
   //   return HeroMarvel(

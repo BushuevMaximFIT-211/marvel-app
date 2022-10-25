@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:marvel_app/api_utils/classes/hero_marvel.dart';
 import 'text_widget.dart';
 
@@ -39,10 +38,10 @@ class CardHero extends StatelessWidget {
       builder: (BuildContext context) => Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(0, 0, 0, 0),
-          foregroundColor: Color.fromRGBO(0, 0, 0, 0),
-          shadowColor: Color.fromRGBO(0, 0, 0, 0),
-          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
+          foregroundColor: const Color.fromRGBO(0, 0, 0, 0),
+          shadowColor: const Color.fromRGBO(0, 0, 0, 0),
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
         body: Hero(
           tag: hero.name,
@@ -53,7 +52,10 @@ class CardHero extends StatelessWidget {
               image: ExactAssetImage(hero.path),
               fit: BoxFit.cover,
             ),
-            Positioned(bottom: 16, left: 10, child: TextApp(text: hero.name))
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: TextApp(text: '${hero.name}\n${hero.info}'),
+            )
           ]),
         ),
       ),

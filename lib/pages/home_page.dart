@@ -19,23 +19,28 @@ class _HomePageState extends State<HomePage> {
     HeroMarvel(
         name: 'Iron Man',
         path: 'assets/iron-man.jpg',
-        Color.fromARGB(255, 49, 68, 153)),
+        Color.fromARGB(255, 49, 68, 153),
+        'I AM IRON MAN'),
     HeroMarvel(
         name: 'Deadpool',
         path: 'assets/deadpool.jpg',
-        Color.fromARGB(255, 201, 64, 64)),
+        Color.fromARGB(255, 201, 64, 64),
+        'You might be wondering why the red suit. Well, that’s so bad guys don’t see me bleed.'),
     HeroMarvel(
         name: 'Dr Strange',
         path: 'assets/dr-strange.jpg',
-        Color.fromARGB(255, 112, 93, 133)),
+        Color.fromARGB(255, 112, 93, 133),
+        'Look at me. Stretching one moment out into a thousand just so I can watch the snow.'),
     HeroMarvel(
         name: 'Groot',
         path: 'assets/groot.jpg',
-        Color.fromARGB(255, 76, 148, 88)),
+        Color.fromARGB(255, 76, 148, 88),
+        'I AM GROOT'),
     HeroMarvel(
         name: 'Spider Man',
         path: 'assets/spider-man.jpg',
-        Color.fromARGB(255, 185, 200, 208)),
+        Color.fromARGB(255, 185, 200, 208),
+        'Have no fear! Spidey is here!'),
   ];
 
   @override
