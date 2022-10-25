@@ -38,14 +38,24 @@ class HeroWidget extends StatelessWidget {
 
   final HeroMarvel hero;
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Hero(
+  //     tag: hero.name,
+  //     child: Stack(children: [
+  //       imageFromNetwork(context, hero.path),
+  //       Positioned(bottom: 16, left: 10, child: TextApp(text: hero.name))
+  //     ]),
+  //   );
+  // }
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: hero.name,
-      child: Stack(children: [
-        imageFromNetwork(context, hero.path),
-        Positioned(bottom: 16, left: 10, child: TextApp(text: hero.name))
-      ]),
-    );
+    return Stack(children: [
+      Hero(
+        tag: hero.name,
+        child: imageFromNetwork(context, hero.path),
+      ),
+      Positioned(bottom: 16, left: 10, child: TextApp(text: hero.name))
+    ]);
   }
 }

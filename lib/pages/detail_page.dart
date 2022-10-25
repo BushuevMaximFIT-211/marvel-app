@@ -18,16 +18,13 @@ class DetailPage extends StatelessWidget {
         shadowColor: const Color.fromRGBO(0, 0, 0, 0),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Hero(
-        tag: hero.name,
-        child: Stack(children: [
-          imageFromNetwork(context, hero.path),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: TextApp(text: '${hero.name}\n${hero.info}'),
-          )
-        ]),
-      ),
+      body: Stack(children: [
+        Hero(tag: hero.name, child: imageFromNetwork(context, hero.path)),
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: TextApp(text: '${hero.name}\n${hero.info}'),
+        )
+      ]),
     );
   }
 }
