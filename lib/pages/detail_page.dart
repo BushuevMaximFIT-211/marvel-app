@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marvel_app/api_utils/classes/hero_marvel.dart';
 import 'package:marvel_app/api_utils/methods/image_from_net.dart';
-
 import '../widgets/text_widget.dart';
 
 class DetailPage extends StatelessWidget {
