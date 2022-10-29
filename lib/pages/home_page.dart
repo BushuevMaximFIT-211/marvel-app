@@ -1,10 +1,16 @@
+import 'dart:convert';
+import '../api_utils/constants/consts.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:marvel_app/api_utils/classes/hero_list_response.dart';
+import 'package:marvel_app/api_utils/classes/http_service.dart';
 import '../api_utils/classes/hero_marvel.dart';
 import '../widgets/background_painter.dart';
 import '../widgets/card_hero.dart';
 import '../widgets/logo_marvel.dart';
 import '../widgets/text_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dio/dio.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,66 +20,93 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var _curentIndex = 0;
-  final List<HeroMarvel> characterList = const [
-    HeroMarvel(
-        name: 'Iron Man',
-        path:
-            'https://www.xtrafondos.com/wallpapers/vertical/iron-man-los-vengadores-4-7099.jpg',
-        Color.fromARGB(255, 49, 68, 153),
-        'I AM IRON MAN'),
-    HeroMarvel(
-        name: 'Deadpool',
-        path:
-            'https://i.pinimg.com/736x/93/0f/9e/930f9e8a3850391ec1a2d5e201a95404.jpg',
-        Color.fromARGB(255, 201, 64, 64),
-        'You might be wondering why the red suit. Well, that’s so bad guys don’t see me bleed.'),
-    HeroMarvel(
-        name: 'Dr Strange',
-        path:
-            'https://i.pinimg.com/originals/e6/25/65/e62565ab99a0c36d4db5583b0ef01339.jpg',
-        Color.fromARGB(255, 112, 93, 133),
-        'Look at me. Stretching one moment out into a thousand just so I can watch the snow.'),
-    HeroMarvel(
-        name: 'Groot',
-        path: 'https://wallpaperaccess.com/full/2903504.jpg',
-        Color.fromARGB(255, 76, 148, 88),
-        'I AM GROOT'),
-    HeroMarvel(
-        name: 'Spider Man',
-        path: 'https://t2.tudocdn.net/634144?w=1920',
-        Color.fromARGB(255, 185, 200, 208),
-        'Have no fear! Spidey is here!'),
+  bool isLoading = false;
+  HttpService? http;
+  List<HeroMarvel>? characterList;
+  List<Color> colorList = const [
+    Color.fromARGB(255, 63, 175, 190),
+    Color.fromARGB(255, 25, 138, 74),
+    Color.fromARGB(255, 189, 194, 61),
+    Color.fromARGB(255, 106, 33, 162),
+    Color.fromARGB(255, 36, 90, 185)
   ];
+  Future getHeroID() async {
+    Response response;
+    try {
+      isLoading = true;
+      response = await http!.getRequest('/v1/public/characters', {
+        'orderBy': '-name',
+        'comics': 66397,
+        'limit': 5,
+        'apikey': publicKey,
+        'ts': ts,
+        'hash': md5.convert(utf8.encode(hash)).toString()
+      });
+      isLoading = false;
+
+      if (response.statusCode == 200) {
+        setState(() {
+          characterList = HeroListResponse.fromJson(response.data).listHeroes;
+        });
+      }
+    } on DioError {
+      isLoading = false;
+    }
+  }
+
+  @override
+  void initState() {
+    http = HttpService(baseHost);
+
+    getHeroID();
+    super.initState();
+  }
+
+  var _curentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: BackgroundPainter(characterList[_curentIndex].color),
-      child: Center(
-        child: Column(
-          children: [
-            const LogoMarvel(),
-            const TextApp(text: 'Choose your hero'),
-            const SizedBox(
-              height: 40,
-            ),
-            CarouselSlider(
-                items:
-                    characterList.map((hero) => CardHero(hero: hero)).toList(),
-                options: CarouselOptions(
-                  height: 555,
-                  enableInfiniteScroll: false,
-                  enlargeCenterPage: true,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _curentIndex = index;
-                    });
-                  },
-                ))
-          ],
-        ),
-      ),
-    );
+    return Scaffold(
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : characterList == null
+                ? const Center(
+                    child: TextApp(text: 'No data'),
+                  )
+                : CustomPaint(
+                    painter: BackgroundPainter(
+                        colorList[_curentIndex]), // add colorLIst;
+                    child: Center(
+                      child: Column(
+                        children: [
+                          const LogoMarvel(),
+                          const TextApp(text: 'Choose your hero'),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          CarouselSlider(
+                              items: characterList
+                                  ?.map((hero) => CardHero(hero: hero))
+                                  .toList(),
+                              options: CarouselOptions(
+                                height: 555,
+                                enableInfiniteScroll: false,
+                                enlargeCenterPage: true,
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    _curentIndex = index;
+                                  });
+                                },
+                              ))
+                        ],
+                      ),
+                    ),
+                  ));
   }
+}
+
+String mD5(String dataToHash) {
+  var bytesToHash = utf8.encode(dataToHash);
+  var md5Digest = md5.convert(bytesToHash);
+  return md5Digest.toString();
 }

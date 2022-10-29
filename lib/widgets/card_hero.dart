@@ -43,7 +43,7 @@ class HeroWidget extends StatelessWidget {
     return Stack(children: [
       Hero(
         tag: hero.name,
-        child: imageFromNetwork(context, hero.path),
+        child: imageFromNetwork(context, hero.getPath()),
       ),
       Positioned(bottom: 16, left: 10, child: TextApp(text: hero.name))
     ]);

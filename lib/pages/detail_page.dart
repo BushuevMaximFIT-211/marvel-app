@@ -18,10 +18,14 @@ class DetailPage extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Stack(children: [
-        Hero(tag: hero.name, child: imageFromNetwork(context, hero.path)),
+        Hero(tag: hero.name, child: imageFromNetwork(context, hero.getPath())),
         Align(
           alignment: Alignment.bottomLeft,
-          child: TextApp(text: '${hero.name}\n${hero.info}'),
+          child: Text(
+            '${hero.name}\n${hero.info}',
+            style: TextStyle(
+                fontSize: 25, color: Colors.white, fontWeight: FontWeight.w700),
+          ),
         )
       ]),
     );
