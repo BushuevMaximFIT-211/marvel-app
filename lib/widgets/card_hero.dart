@@ -40,12 +40,15 @@ class HeroWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
+    final name = hero.name;
+    return Stack(alignment: Alignment.bottomLeft, children: [
       Hero(
         tag: hero.name,
         child: imageFromNetwork(context, hero.getPath()),
       ),
-      Positioned(bottom: 16, left: 10, child: TextApp(text: hero.name))
+      TextApp(
+          text:
+              name.contains('(') ? name.substring(0, name.indexOf('(')) : name)
     ]);
   }
 }

@@ -10,7 +10,7 @@ class LogoMarvel extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Image.asset(
-        'assets/marvel_logo.png',
+        'assets/marvel.png',
         width: 150,
         height: 60,
       ),

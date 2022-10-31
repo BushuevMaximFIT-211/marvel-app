@@ -35,7 +35,7 @@ dev_dependencies:
   json_serializable: ^6.5.4
 
 flutter_app_name:
-  name: "Choose your hero"
+  name: "Marvel App"
 
 flutter:
   uses-material-design: true

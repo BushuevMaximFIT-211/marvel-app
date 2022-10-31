@@ -2,7 +2,6 @@ import 'dart:convert';
 import '../api_utils/constants/consts.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:marvel_app/api_utils/classes/hero_list_response.dart';
 import 'package:marvel_app/api_utils/classes/http_service.dart';
 import '../api_utils/classes/hero_marvel.dart';
 import '../widgets/background_painter.dart';
@@ -23,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = false;
   HttpService? http;
   List<HeroMarvel>? characterList;
+
   List<Color> colorList = const [
     Color.fromARGB(255, 63, 175, 190),
     Color.fromARGB(255, 25, 138, 74),
@@ -30,10 +30,13 @@ class _HomePageState extends State<HomePage> {
     Color.fromARGB(255, 106, 33, 162),
     Color.fromARGB(255, 36, 90, 185)
   ];
-  Future getHeroID() async {
+
+  Future getData() async {
     Response response;
-    try {
+    setState(() {
       isLoading = true;
+    });
+    try {
       response = await http!.getRequest('/v1/public/characters', {
         'orderBy': '-name',
         'comics': 66397,
@@ -42,23 +45,28 @@ class _HomePageState extends State<HomePage> {
         'ts': ts,
         'hash': md5.convert(utf8.encode(hash)).toString()
       });
-      isLoading = false;
 
       if (response.statusCode == 200) {
         setState(() {
-          characterList = HeroListResponse.fromJson(response.data).listHeroes;
+          characterList = (response.data['data']['results'] as List)
+              .map((e) => HeroMarvel.fromJson(e))
+              .toList();
         });
       }
-    } on DioError {
-      isLoading = false;
+    } catch (e) {
+      setState(() {
+        characterList = null;
+      });
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
   void initState() {
     http = HttpService(baseHost);
-
-    getHeroID();
+    getData();
     super.initState();
   }
 
@@ -68,40 +76,52 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : characterList == null
-                ? const Center(
-                    child: TextApp(text: 'No data'),
-                  )
-                : CustomPaint(
-                    painter: BackgroundPainter(
-                        colorList[_curentIndex]), // add colorLIst;
-                    child: Center(
-                      child: Column(
-                        children: [
-                          const LogoMarvel(),
-                          const TextApp(text: 'Choose your hero'),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                          CarouselSlider(
-                              items: characterList
-                                  ?.map((hero) => CardHero(hero: hero))
-                                  .toList(),
-                              options: CarouselOptions(
-                                height: 555,
-                                enableInfiniteScroll: false,
-                                enlargeCenterPage: true,
-                                onPageChanged: (index, reason) {
-                                  setState(() {
-                                    _curentIndex = index;
-                                  });
-                                },
-                              ))
-                        ],
+            ? Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/marvel_logo.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: const Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : CustomPaint(
+                painter: BackgroundPainter(colorList[_curentIndex]),
+                child: characterList == null
+                    ? const Center(
+                        child: TextApp(text: 'No data'),
+                      )
+                    : Center(
+                        child: Column(
+                          children: [
+                            const LogoMarvel(),
+                            const TextApp(text: 'Choose your hero'),
+                            const SizedBox(
+                              height: 40,
+                            ),
+                            CarouselSlider(
+                                items: characterList
+                                    ?.map((hero) => CardHero(hero: hero))
+                                    .toList(),
+                                options: CarouselOptions(
+                                  height: 555,
+                                  enableInfiniteScroll: false,
+                                  enlargeCenterPage: true,
+                                  onPageChanged: (index, reason) {
+                                    setState(() {
+                                      _curentIndex = index;
+                                    });
+                                  },
+                                ))
+                          ],
+                        ),
                       ),
-                    ),
-                  ));
+              ));
   }
 }
 

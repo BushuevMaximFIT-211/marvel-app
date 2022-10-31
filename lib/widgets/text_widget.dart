@@ -15,7 +15,7 @@ class TextApp extends StatelessWidget {
         text,
         style: const TextStyle(
             color: Colors.white,
-            fontSize: 30,
+            fontSize: 34,
             decoration: TextDecoration.none,
             fontWeight: FontWeight.bold),
       ),
