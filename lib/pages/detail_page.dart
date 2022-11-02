@@ -4,11 +4,12 @@ import 'package:marvel_app/api_utils/methods/image_from_net.dart';
 import 'package:marvel_app/widgets/text_widget.dart';
 
 class DetailPage extends StatelessWidget {
-  final HeroMarvel hero;
-  const DetailPage({super.key, required this.hero});
+  const DetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final HeroMarvel hero =
+        ModalRoute.of(context)!.settings.arguments as HeroMarvel;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

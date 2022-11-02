@@ -26,7 +26,8 @@ class CardHero extends StatelessWidget {
   void _goToDetailsPage(BuildContext context, HeroMarvel hero) {
     Feedback.forLongPress(context);
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => DetailPage(hero: hero)));
+        settings: RouteSettings(arguments: hero),
+        builder: (BuildContext context) => const DetailPage()));
   }
 }
 
