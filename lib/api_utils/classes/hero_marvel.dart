@@ -7,13 +7,15 @@ class HeroMarvel {
   @JsonKey(name: "name")
   final String name;
 
-  @JsonKey(name: "description")
-  final String info;
+  @JsonKey(name: "id")
+  final int id;
 
   @JsonKey(name: "thumbnail")
   final String thumbnail;
 
-  HeroMarvel(this.name, this.info, this.thumbnail);
+  String info = '';
+
+  HeroMarvel(this.name, this.id, this.thumbnail, this.info);
 
   factory HeroMarvel.fromJson(Map<String, dynamic> json) =>
       _$HeroMarvelFromJson(json);
