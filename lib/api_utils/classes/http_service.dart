@@ -1,16 +1,10 @@
 import 'package:dio/dio.dart';
 
-class HttpService {
-  final Dio _dio = Dio();
-
-  final String baseUrl;
-
-  HttpService(this.baseUrl) {
+abstract class HttpService {
+  static final Dio _dio = Dio();
+  static Future<Response> getRequest(String baseUrl, String endPoint,
+      Map<String, dynamic> queryParameters) async {
     _dio.options.baseUrl = baseUrl;
-  }
-
-  Future<Response> getRequest(
-      String endPoint, Map<String, dynamic> queryParameters) async {
     Response response;
     try {
       response = await _dio.get(endPoint, queryParameters: queryParameters);

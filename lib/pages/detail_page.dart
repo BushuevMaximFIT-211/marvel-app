@@ -13,11 +13,7 @@ class DetailPage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: TextApp(
-          text: hero.name.contains('(')
-              ? hero.name.substring(0, hero.name.indexOf('('))
-              : hero.name,
-        ),
+        title: TextApp(text: hero.name),
         centerTitle: true,
         backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
         elevation: 0,
@@ -29,9 +25,8 @@ class DetailPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            hero.info != ''
-                ? hero.info
-                : 'Hello! My name is ${hero.name} and I am character of Marvel. ',
+            hero.info ??
+                'Hello! My name is ${hero.name} and I am character of Marvel.',
             style: const TextStyle(
                 fontSize: 20,
                 color: Color.fromARGB(255, 255, 255, 255),

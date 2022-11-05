@@ -20,7 +20,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isLoading = false;
-  HttpService? http;
+
   List<HeroMarvel>? characterList;
 
   List<Color> colorList = const [
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
       isLoading = true;
     });
     try {
-      response = await http!.getRequest('/v1/public/characters', {
+      response = await HttpService.getRequest(baseHost, endPointListHero, {
         'orderBy': '-name',
         'comics': 66397,
         'limit': 5,
@@ -51,6 +51,7 @@ class _HomePageState extends State<HomePage> {
           characterList = (response.data['data']['results'] as List)
               .map((e) => HeroMarvel.fromJson(e))
               .toList();
+          getDescriptionHero(characterList![0]);
         });
       }
     } catch (e) {
@@ -65,8 +66,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    http = HttpService(baseHost);
     getData();
+
     super.initState();
   }
 
@@ -114,6 +115,7 @@ class _HomePageState extends State<HomePage> {
                                   enlargeCenterPage: true,
                                   onPageChanged: (index, reason) {
                                     setState(() {
+                                      getDescriptionHero(characterList![index]);
                                       _curentIndex = index;
                                     });
                                   },
@@ -129,4 +131,29 @@ String mD5(String dataToHash) {
   var bytesToHash = utf8.encode(dataToHash);
   var md5Digest = md5.convert(bytesToHash);
   return md5Digest.toString();
+}
+
+Future getDescriptionHero(HeroMarvel hero) async {
+  Response response;
+
+  try {
+    response = await HttpService.getRequest(
+        baseHost, '/v1/public/characters/${hero.id}', {
+      'characterId': hero.id,
+      'apikey': publicKey,
+      'ts': ts,
+      'hash': md5.convert(utf8.encode(hash)).toString()
+    });
+
+    if (response.statusCode == 200) {
+      final description = response.data['data']['results'][0]['description'];
+      if (description != '') {
+        hero.info = description;
+      } else {
+        hero.info = null;
+      }
+    }
+  } catch (e) {
+    return;
+  }
 }

@@ -13,7 +13,7 @@ class HeroMarvel {
   @JsonKey(name: "thumbnail")
   final String thumbnail;
 
-  String info = '';
+  String? info;
 
   HeroMarvel(this.name, this.id, this.thumbnail, this.info);
 

@@ -23,8 +23,9 @@ class CardHero extends StatelessWidget {
                 child: HeroWidget(hero: hero))));
   }
 
-  void _goToDetailsPage(BuildContext context, HeroMarvel hero) {
+  Future _goToDetailsPage(BuildContext context, HeroMarvel hero) async {
     Feedback.forLongPress(context);
+
     Navigator.of(context).push(MaterialPageRoute(
         settings: RouteSettings(arguments: hero),
         builder: (BuildContext context) => const DetailPage()));
@@ -47,9 +48,7 @@ class HeroWidget extends StatelessWidget {
         tag: hero.name,
         child: imageFromNetwork(context, hero.getPath()),
       ),
-      TextApp(
-          text:
-              name.contains('(') ? name.substring(0, name.indexOf('(')) : name)
+      TextApp(text: name)
     ]);
   }
 }
