@@ -12,12 +12,20 @@ dependencies:
   flutter:
     sdk: flutter
   carousel_slider: ^4.1.1
-  crypto: ^3.0.1
   cupertino_icons: ^1.0.2
   google_fonts: ^3.0.1
   cached_network_image: ^3.2.2
   dio: ^4.0.6
   json_annotation: ^4.7.0
+  flutter_dotenv: ^5.0.2
+  flutter_riverpod: ^2.1.1
+
+  heroes_repository:
+    path: ./packages/heroes_repository
+  api_client:
+    path: ./packages/api_client
+  crypto: ^3.0.2
+  fluttertoast: ^6.0.1
   
 
 flutter_icons:
@@ -41,4 +49,5 @@ flutter:
   uses-material-design: true
   assets:
   - assets/
+  - .env
 
