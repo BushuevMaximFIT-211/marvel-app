@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroes_repository/heroes_repository.dart';
-
 import 'package:marvel_app/src/features/heroes/view/widgets/image_hero.dart';
 import 'package:marvel_app/src/features/heroes/view/widgets/text_app.dart';
 
-class DetailedHeroPage extends StatelessWidget {
+final selectedHeroProvider =
+    Provider<HeroMarvel>(((ref) => throw UnimplementedError()));
+
+class DetailedHeroPage extends ConsumerWidget {
   const DetailedHeroPage({super.key});
   static const routeName = '/detailed-heroes';
   @override
-  Widget build(BuildContext context) {
-    final HeroMarvel hero =
-        ModalRoute.of(context)!.settings.arguments as HeroMarvel;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final HeroMarvel hero = ref.watch(selectedHeroProvider);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -21,7 +23,7 @@ class DetailedHeroPage extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Stack(alignment: Alignment.bottomLeft, children: [
-        Hero(tag: hero.name, child: ImageHero(imgUrl: hero.getPath())),
+        Hero(tag: hero.id, child: ImageHero(imgUrl: hero.getPath())),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroes_repository/heroes_repository.dart';
+import 'package:marvel_app/src/features/detailed_heroes/view/detailed_hero_page_args.dart';
 import 'image_hero.dart';
 import '../../../../../main.dart';
 import '../../../detailed_heroes/view/detailed_hero_page.dart';
@@ -33,8 +34,8 @@ class CardHero extends ConsumerWidget {
       BuildContext context, HeroMarvel hero, WidgetRef ref) async {
     Feedback.forLongPress(context);
 
-    Navigator.of(context)
-        .pushNamed(DetailedHeroPage.routeName, arguments: hero);
+    Navigator.of(context).pushNamed(DetailedHeroPage.routeName,
+        arguments: DetailedHeroPageArgs(hero: hero));
   }
 }
 
@@ -56,7 +57,7 @@ class HeroWidget extends StatelessWidget {
 
     return Stack(alignment: Alignment.bottomLeft, children: [
       Hero(
-        tag: hero.name,
+        tag: hero.id,
         child: ImageHero(imgUrl: hero.getPath()),
       ),
       TextApp(text: name)
