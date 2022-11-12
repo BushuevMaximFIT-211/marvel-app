@@ -12,7 +12,7 @@ class DetailedHeroPage extends ConsumerWidget {
   static const routeName = '/detailed-heroes';
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final HeroMarvel hero = ref.watch(selectedHeroProvider);
+    final HeroMarvel hero = ref.read(selectedHeroProvider);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

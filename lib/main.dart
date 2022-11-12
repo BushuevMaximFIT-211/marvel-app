@@ -3,7 +3,6 @@ import 'package:api_client/api_client.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroes_repository/heroes_repository.dart';
-
 import 'src/app.dart';
 
 final _baseUrlProvider = Provider((ref) => dotenv.env['BASE_URL']!);
