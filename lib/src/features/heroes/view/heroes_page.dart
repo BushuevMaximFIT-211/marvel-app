@@ -9,6 +9,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 final heroesProvider = FutureProvider((ref) {
   final heroesRepository = ref.watch(heroesRepositoryProvider);
+
   final heroes = heroesRepository.fetchHeroList();
 
   return heroes;
@@ -56,7 +57,7 @@ class HeroesPage extends ConsumerWidget {
                         height: 40,
                       ),
                       CarouselSlider.builder(
-                        itemCount: data.length,
+                        itemCount: data?.length,
                         options: CarouselOptions(
                           height: 555,
                           enableInfiniteScroll: false,
@@ -67,7 +68,7 @@ class HeroesPage extends ConsumerWidget {
                           },
                         ),
                         itemBuilder: (context, index, realIndex) =>
-                            CardHero(hero: data[index]),
+                            CardHero(hero: data![index]),
                       ),
                     ],
                   ),

@@ -20,8 +20,7 @@ class ApiClient implements Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    final networkError = NetworkError(err);
-    handler.next(networkError);
+    handler.next(NetworkError(err));
   }
 
   @override

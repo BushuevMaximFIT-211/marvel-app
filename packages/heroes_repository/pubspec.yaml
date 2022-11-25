@@ -13,6 +13,9 @@ dependencies:
   json_annotation: ^4.6.0
   api_client:
     path: ../api_client
+  shared_preferences: ^2.0.15
+  crypto: ^3.0.2
+  connectivity_plus: ^3.0.2
 
 dev_dependencies:
   flutter_test:

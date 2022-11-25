@@ -14,7 +14,7 @@ HeroMarvel _$HeroMarvelFromJson(Map<String, dynamic> json) => HeroMarvel(
           : json['name'] as String,
       json['id'] as int,
       json['thumbnail']['path'] as String,
-      json['info'] as String?,
+      json['description'] as String?,
     );
 
 Map<String, dynamic> _$HeroMarvelToJson(HeroMarvel instance) =>
