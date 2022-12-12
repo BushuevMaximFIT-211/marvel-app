@@ -1,7 +1,5 @@
-import 'package:heroes_repository/heroes_repository.dart';
-
 class DetailedHeroPageArgs {
-  final HeroMarvel hero;
+  final int id;
 
-  DetailedHeroPageArgs({required this.hero});
+  DetailedHeroPageArgs({required this.id});
 }

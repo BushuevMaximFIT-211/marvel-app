@@ -20,9 +20,7 @@ class App extends StatelessWidget {
               {
                 final args = settings.arguments as DetailedHeroPageArgs;
                 return ProviderScope(
-                  overrides: [
-                    selectedHeroProvider.overrideWithValue(args.hero)
-                  ],
+                  overrides: [selectedHeroProvider.overrideWithValue(args.id)],
                   child: const DetailedHeroPage(),
                 );
               }

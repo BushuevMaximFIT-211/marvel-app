@@ -33,19 +33,20 @@ class HeroesRepositoryImpl implements HeroesRepository {
         _apiClient = apiClient;
 
   @override
-  Future<void> fetchDecription(HeroMarvel hero) async {
+  Future<HeroMarvel> fetchHeroById(int id) async {
     final response = await _apiClient.dio.get(
-        _HeroesEndpoint.characterById.endpoint + hero.id.toString(),
+        _HeroesEndpoint.characterById.endpoint + id.toString(),
         queryParameters: {
-          'characterId': hero.id,
+          'characterId': id,
           'apikey': publicKey,
           'ts': ts,
           'hash': md5.convert(utf8.encode(getHash())).toString()
         });
-    final String description =
-        response.data['data']['results'][0]['description'];
-    hero.info = description;
-    updateValue(hero.id, description);
+
+    final hero = HeroMarvel.fromJson(response.data['data']['results'][0]);
+
+    updateValue(hero.id, hero.info);
+    return hero;
   }
 
   @override
@@ -79,7 +80,7 @@ class HeroesRepositoryImpl implements HeroesRepository {
     return characterList;
   }
 
-  updateValue(int index, String description) async {
+  updateValue(int index, String? description) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final localData = getValue() as String;
