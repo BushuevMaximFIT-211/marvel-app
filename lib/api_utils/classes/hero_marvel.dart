@@ -1,12 +1,23 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'hero_marvel.g.dart';
+
+@JsonSerializable()
 class HeroMarvel {
+  @JsonKey(name: "name")
   final String name;
 
-  final String path;
-  final String info = '';
+  @JsonKey(name: "description")
+  final String info;
 
-  const HeroMarvel({required this.name, required this.path});
+  @JsonKey(name: "thumbnail")
+  final String thumbnail;
 
-  factory HeroMarvel.fromJson(Map<String, dynamic> json) {
-    return HeroMarvel(name: json['name'], path: json['thumbnail']['path']);
-  }
+  HeroMarvel(this.name, this.info, this.thumbnail);
+
+  factory HeroMarvel.fromJson(Map<String, dynamic> json) =>
+      _$HeroMarvelFromJson(json);
+  Map<String, dynamic> toJson() => _$HeroMarvelToJson(this);
+
+  String getPath() => '$thumbnail.jpg';
 }
