@@ -1,13 +1,9 @@
-// ignore_for_file: unused_import
-
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroes_repository/heroes_repository.dart';
 import 'package:marvel_app/main.dart';
 import 'package:flutter/material.dart';
 import '../../detailed_heroes/view/detailed_hero_page.dart';
-import '../../detailed_heroes/view/detailed_hero_page_args.dart';
 import 'widgets/background_painter.dart';
 import 'widgets/card_hero.dart';
 import 'widgets/logo_marvel.dart';
@@ -22,7 +18,7 @@ final heroesProvider = FutureProvider((ref) {
   return heroes;
 });
 final curentHeroProvider = StateProvider<HeroMarvel?>((ref) => null);
-final curentIndexStateProvider = StateProvider<int>((ref) {
+final _curentIndexStateProvider = StateProvider<int>((ref) {
   return 0;
 });
 
@@ -40,30 +36,30 @@ class HeroesPage extends ConsumerStatefulWidget {
 
 class _HeroesPageState extends ConsumerState<ConsumerStatefulWidget> {
   late HeroMarvel hero;
+  late int indexPage;
   @override
   void initState() {
+    indexPage = 0;
     super.initState();
     FirebaseMessaging.instance.getInitialMessage();
-    FirebaseMessaging.onMessage.listen(showFlutterNotification);
+
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       ref.read(curentIDStateProvider.notifier).state =
           int.parse(message.data['id']);
-      Navigator.of(context).pushNamed(DetailedHeroPage.routeName,
-          arguments: DetailedHeroPageArgs(id: int.parse(message.data['id'])));
+      Navigator.of(context).pushNamed(DetailedHeroPage.routeName);
     });
   }
 
-  Future _goToDetailsPage(BuildContext context, int id) async {
+  void _goToDetailsPage(BuildContext context, int id) async {
     Feedback.forLongPress(context);
 
-    Navigator.of(context).pushNamed(DetailedHeroPage.routeName,
-        arguments: DetailedHeroPageArgs(id: id));
+    Navigator.of(context).pushNamed(DetailedHeroPage.routeName);
   }
 
   @override
   Widget build(BuildContext context) {
     final heroesList = ref.watch(heroesProvider);
-    int currentIndex = ref.watch(curentIndexStateProvider);
+    int currentIndex = ref.watch(_curentIndexStateProvider);
 
     return Scaffold(
         body: heroesList.when(
@@ -99,7 +95,7 @@ class _HeroesPageState extends ConsumerState<ConsumerStatefulWidget> {
                           enableInfiniteScroll: false,
                           enlargeCenterPage: true,
                           onPageChanged: (index, reason) {
-                            ref.read(curentIndexStateProvider.notifier).state =
+                            ref.read(_curentIndexStateProvider.notifier).state =
                                 index;
                           },
                         ),

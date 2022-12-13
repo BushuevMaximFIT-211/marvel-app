@@ -6,8 +6,6 @@ import 'package:marvel_app/src/features/heroes/view/heroes_page.dart';
 import 'package:marvel_app/src/features/heroes/view/widgets/image_hero.dart';
 import 'package:marvel_app/src/features/heroes/view/widgets/text_app.dart';
 
-final selectedHeroProvider =
-    Provider<int>(((ref) => throw UnimplementedError()));
 final heroProvider = FutureProvider<HeroMarvel>(((ref) async {
   final id = ref.watch(curentIDStateProvider);
   final hero = await ref.watch(heroesRepositoryProvider).fetchHeroById(id);
