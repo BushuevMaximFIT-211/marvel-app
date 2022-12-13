@@ -14,13 +14,13 @@ HeroMarvel _$HeroMarvelFromJson(Map<String, dynamic> json) => HeroMarvel(
           : json['name'] as String,
       json['id'] as int,
       json['thumbnail']['path'] as String,
-      json['description'] as String?,
+      json['info'] as String?,
     );
 
 Map<String, dynamic> _$HeroMarvelToJson(HeroMarvel instance) =>
     <String, dynamic>{
       'name': instance.name,
       'id': instance.id,
-      'thumbnail': instance.thumbnail,
+      'thumbnail': {'path': instance.thumbnail},
       'info': instance.info,
     };

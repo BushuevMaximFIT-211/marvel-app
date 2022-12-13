@@ -13,9 +13,8 @@ dependencies:
     sdk: flutter
   carousel_slider: ^4.1.1
   cupertino_icons: ^1.0.2
-  google_fonts: ^3.0.1
   cached_network_image: ^3.2.2
-  dio: ^4.0.6
+  
   json_annotation: ^4.7.0
   flutter_dotenv: ^5.0.2
   flutter_riverpod: ^2.1.1
@@ -24,13 +23,14 @@ dependencies:
     path: ./packages/heroes_repository
   api_client:
     path: ./packages/api_client
+  local_data_storage:
+    path: ./packages/local_data_storage
   crypto: ^3.0.2
+
 
   connectivity_plus: ^3.0.2
   firebase_messaging: ^14.1.4
   firebase_core: ^2.4.0
-  flutter_local_notifications: ^12.0.4
-  cloud_functions: ^4.0.6
   
 
 flutter_icons:
