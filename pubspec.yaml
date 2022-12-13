@@ -19,13 +19,14 @@ dependencies:
   json_annotation: ^4.7.0
   flutter_dotenv: ^5.0.2
   flutter_riverpod: ^2.1.1
-
+  shared_preferences: ^2.0.15
   heroes_repository:
     path: ./packages/heroes_repository
   api_client:
     path: ./packages/api_client
   crypto: ^3.0.2
   fluttertoast: ^6.0.1
+  connectivity_plus: ^2.1.0
   
 
 flutter_icons:
