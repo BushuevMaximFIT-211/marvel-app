@@ -10,6 +10,7 @@ import 'widgets/card_hero.dart';
 import 'widgets/logo_marvel.dart';
 import 'widgets/text_app.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final heroesProvider = FutureProvider((ref) async {
   final heroesRepository = ref.watch(heroesRepositoryProvider);
@@ -79,8 +80,8 @@ class _HeroesPageState extends ConsumerState<ConsumerStatefulWidget> {
 
     return Scaffold(
         body: heroesList.when(
-            error: ((error, stackTrace) => const Center(
-                child: Text('There was exception while loading data!'))),
+            error: ((error, stackTrace) =>
+                Center(child: Text(AppLocalizations.of(context)!.error))),
             loading: () => Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
@@ -100,8 +101,8 @@ class _HeroesPageState extends ConsumerState<ConsumerStatefulWidget> {
                 painter: BackgroundPainter(currentIndex),
                 child: Column(
                   children: [
-                    const LogoMarvel(),
-                    const TextApp(text: 'Choose your hero'),
+                    const Center(child: LogoMarvel()),
+                    TextApp(text: AppLocalizations.of(context)!.title),
                     const SizedBox(
                       height: 40,
                     ),

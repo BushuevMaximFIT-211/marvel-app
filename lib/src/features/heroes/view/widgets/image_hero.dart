@@ -14,7 +14,8 @@ class ImageHero extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       fit: BoxFit.cover,
-      placeholder: (context, url) => const CircularProgressIndicator(),
+      placeholder: (context, url) =>
+          const Center(child: CircularProgressIndicator()),
       errorWidget: (context, url, error) => const Center(
           child:
               TextApp(text: 'Loading error.\nCheck your Internet conection')),

@@ -49,7 +49,7 @@ class _DetailedHeroPageState extends ConsumerState<ConsumerStatefulWidget> {
               elevation: 0,
               iconTheme: const IconThemeData(color: Colors.white),
             ),
-            body: Stack(alignment: Alignment.bottomLeft, children: [
+            body: Stack(alignment: AlignmentDirectional.bottomStart, children: [
               Hero(tag: hero.id, child: ImageHero(imgUrl: hero.getPath())),
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -57,6 +57,7 @@ class _DetailedHeroPageState extends ConsumerState<ConsumerStatefulWidget> {
                   hero.info == ''
                       ? 'Hello! My name is ${hero.name} and I am character of Marvel.'
                       : hero.info.toString(),
+                  // textDirection: TextDirection.,
                   style: const TextStyle(
                       fontSize: 20,
                       color: Color.fromARGB(255, 255, 255, 255),
@@ -69,6 +70,6 @@ class _DetailedHeroPageState extends ConsumerState<ConsumerStatefulWidget> {
         error: ((error, stackTrace) {
           return Text(error.toString());
         }),
-        loading: () => const CircularProgressIndicator());
+        loading: () => const Center(child: CircularProgressIndicator()));
   }
 }

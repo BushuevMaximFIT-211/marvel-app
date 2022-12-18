@@ -14,7 +14,6 @@ dependencies:
   carousel_slider: ^4.1.1
   cupertino_icons: ^1.0.2
   cached_network_image: ^3.2.2
-  
   json_annotation: ^4.7.0
   flutter_dotenv: ^5.0.2
   flutter_riverpod: ^2.1.1
@@ -26,11 +25,13 @@ dependencies:
   local_data_storage:
     path: ./packages/local_data_storage
   crypto: ^3.0.2
-
-
   connectivity_plus: ^3.0.2
   firebase_messaging: ^14.1.4
   firebase_core: ^2.4.0
+  flutter_localizations: 
+    sdk: flutter
+  intl: ^0.17.0
+  auto_direction: ^0.0.6
   
 
 flutter_icons:
@@ -52,6 +53,7 @@ flutter_app_name:
 
 flutter:
   uses-material-design: true
+  generate: true
   assets:
   - assets/
   - .env

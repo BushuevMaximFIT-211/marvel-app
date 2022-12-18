@@ -9,6 +9,7 @@ import 'package:heroes_repository/heroes_repository.dart';
 import 'package:local_data_storage/local_data_storage.dart';
 import 'firebase_options.dart';
 import 'src/app.dart';
+import 'package:flutter/services.dart';
 
 final _baseUrlProvider = Provider((ref) => dotenv.env['BASE_URL']!);
 final _publicKeyProvider = Provider((ref) => dotenv.env['PUBLIC_KEY']!);
@@ -40,7 +41,8 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await dotenv.load(fileName: '.env');
 
   runApp(const ProviderScope(child: App()));

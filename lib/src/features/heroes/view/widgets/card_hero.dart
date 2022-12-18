@@ -38,7 +38,7 @@ class HeroWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final name = hero.name;
 
-    return Stack(alignment: Alignment.bottomLeft, children: [
+    return Stack(alignment: AlignmentDirectional.bottomStart, children: [
       Hero(
         tag: hero.id,
         child: ImageHero(imgUrl: hero.getPath()),
