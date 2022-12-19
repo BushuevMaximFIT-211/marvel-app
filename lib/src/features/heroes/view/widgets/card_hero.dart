@@ -7,7 +7,6 @@ import 'package:heroes_repository/heroes_repository.dart';
 import 'image_hero.dart';
 import '../../../../../main.dart';
 import '../../../detailed_heroes/view/detailed_hero_page.dart';
-import 'text_app.dart';
 
 class CardHero extends ConsumerWidget {
   final HeroMarvel hero;
@@ -17,7 +16,7 @@ class CardHero extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
-        color: Colors.grey.shade800,
+        color: Theme.of(context).primaryColor,
         clipBehavior: Clip.antiAlias,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(24)),
@@ -43,7 +42,12 @@ class HeroWidget extends StatelessWidget {
         tag: hero.id,
         child: ImageHero(imgUrl: hero.getPath()),
       ),
-      TextApp(text: name)
+      Padding(
+          padding: const EdgeInsets.all(17.0),
+          child: Text(
+            name,
+            style: Theme.of(context).textTheme.headlineLarge,
+          ))
     ]);
   }
 }

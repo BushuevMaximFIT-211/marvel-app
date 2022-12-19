@@ -9,11 +9,13 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       title: 'Marvel App',
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      theme: ThemeData(),
+      themeMode: ThemeMode.system,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       home: const HeroesPage(),
       onGenerateRoute: (settings) {
         return MaterialPageRoute<void>(builder: ((context) {
@@ -29,4 +31,33 @@ class App extends StatelessWidget {
       },
     );
   }
+}
+
+class AppTheme {
+  static const colorText = Colors.white;
+  static final lightTheme = ThemeData(
+      primaryColor: const Color.fromARGB(255, 239, 190, 130),
+      scaffoldBackgroundColor: const Color.fromARGB(255, 239, 190, 130),
+      textTheme: const TextTheme(
+        headlineLarge: TextStyle(
+            color: colorText,
+            fontSize: 34,
+            decoration: TextDecoration.none,
+            fontWeight: FontWeight.bold),
+        bodySmall: TextStyle(
+            color: colorText, fontSize: 20, fontWeight: FontWeight.w900),
+      ));
+
+  static final darkTheme = ThemeData(
+      primaryColor: Colors.grey.shade900,
+      scaffoldBackgroundColor: Colors.grey.shade900,
+      textTheme: const TextTheme(
+        headlineLarge: TextStyle(
+            color: colorText,
+            fontSize: 34,
+            decoration: TextDecoration.none,
+            fontWeight: FontWeight.bold),
+        bodySmall: TextStyle(
+            color: colorText, fontSize: 20, fontWeight: FontWeight.w900),
+      ));
 }

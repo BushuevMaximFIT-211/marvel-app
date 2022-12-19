@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'text_app.dart';
 
 class ImageHero extends StatelessWidget {
   final String imgUrl;
@@ -16,9 +15,11 @@ class ImageHero extends StatelessWidget {
       fit: BoxFit.cover,
       placeholder: (context, url) =>
           const Center(child: CircularProgressIndicator()),
-      errorWidget: (context, url, error) => const Center(
-          child:
-              TextApp(text: 'Loading error.\nCheck your Internet conection')),
+      errorWidget: (context, url, error) => Center(
+          child: Text(
+        'Loading error.\nCheck your Internet conection',
+        style: Theme.of(context).textTheme.headlineLarge,
+      )),
     );
   }
 }

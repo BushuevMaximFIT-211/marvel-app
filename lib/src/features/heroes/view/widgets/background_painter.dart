@@ -9,14 +9,15 @@ class BackgroundPainter extends CustomPainter {
     Color.fromARGB(255, 106, 33, 162),
     Color.fromARGB(255, 36, 90, 185)
   ];
-  BackgroundPainter(this.indexColor);
+  Color paintColor;
+  BackgroundPainter(this.indexColor, this.paintColor);
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint();
     final mainBackground = Path();
     mainBackground.addRect(Rect.fromLTRB(0, 0, size.width, size.height));
-    paint.color = Colors.grey.shade900;
+    paint.color = paintColor;
     canvas.drawPath(mainBackground, paint);
     final trianglePath = Path();
 

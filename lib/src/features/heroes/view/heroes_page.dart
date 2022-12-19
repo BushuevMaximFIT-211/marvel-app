@@ -8,7 +8,7 @@ import '../../detailed_heroes/view/detailed_hero_page.dart';
 import 'widgets/background_painter.dart';
 import 'widgets/card_hero.dart';
 import 'widgets/logo_marvel.dart';
-import 'widgets/text_app.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -53,6 +53,7 @@ class HeroesPage extends ConsumerStatefulWidget {
 class _HeroesPageState extends ConsumerState<ConsumerStatefulWidget> {
   late HeroMarvel hero;
   late int indexPage;
+
   @override
   void initState() {
     indexPage = 0;
@@ -77,7 +78,7 @@ class _HeroesPageState extends ConsumerState<ConsumerStatefulWidget> {
   Widget build(BuildContext context) {
     final heroesList = ref.watch(heroesProvider);
     int currentIndex = ref.watch(_curentIndexStateProvider);
-
+    Color primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
         body: heroesList.when(
             error: ((error, stackTrace) =>
@@ -89,22 +90,25 @@ class _HeroesPageState extends ConsumerState<ConsumerStatefulWidget> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.bottomCenter,
                     child: CircularProgressIndicator(
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: primaryColor,
                     ),
                   ),
                 ),
             data: ((data) {
               return CustomPaint(
-                painter: BackgroundPainter(currentIndex),
+                painter: BackgroundPainter(currentIndex, primaryColor),
                 child: Column(
                   children: [
                     const Center(child: LogoMarvel()),
-                    TextApp(text: AppLocalizations.of(context)!.title),
+                    Text(
+                      AppLocalizations.of(context)!.title,
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
                     const SizedBox(
-                      height: 40,
+                      height: 80,
                     ),
                     CarouselSlider.builder(
                       itemCount: data.length,

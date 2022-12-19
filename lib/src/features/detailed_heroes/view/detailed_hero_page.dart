@@ -5,7 +5,6 @@ import 'package:heroes_repository/heroes_repository.dart';
 import 'package:marvel_app/main.dart';
 import 'package:marvel_app/src/features/heroes/view/heroes_page.dart';
 import 'package:marvel_app/src/features/heroes/view/widgets/image_hero.dart';
-import 'package:marvel_app/src/features/heroes/view/widgets/text_app.dart';
 
 final heroProvider = FutureProvider<HeroMarvel>(((ref) async {
   final id = ref.watch(curentIDStateProvider);
@@ -43,7 +42,10 @@ class _DetailedHeroPageState extends ConsumerState<ConsumerStatefulWidget> {
           return Scaffold(
             extendBodyBehindAppBar: true,
             appBar: AppBar(
-              title: TextApp(text: hero.name),
+              title: Text(
+                hero.name,
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
               centerTitle: true,
               backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
               elevation: 0,
@@ -54,15 +56,11 @@ class _DetailedHeroPageState extends ConsumerState<ConsumerStatefulWidget> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  hero.info == ''
-                      ? 'Hello! My name is ${hero.name} and I am character of Marvel.'
-                      : hero.info.toString(),
-                  // textDirection: TextDirection.,
-                  style: const TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontWeight: FontWeight.w900),
-                ),
+                    hero.info == ''
+                        ? 'Hello! My name is ${hero.name} and I am character of Marvel.'
+                        : hero.info.toString(),
+                    // textDirection: TextDirection.,
+                    style: Theme.of(context).textTheme.bodySmall),
               ),
             ]),
           );
@@ -70,6 +68,7 @@ class _DetailedHeroPageState extends ConsumerState<ConsumerStatefulWidget> {
         error: ((error, stackTrace) {
           return Text(error.toString());
         }),
-        loading: () => const Center(child: CircularProgressIndicator()));
+        loading: () =>
+            const Scaffold(body: Center(child: CircularProgressIndicator())));
   }
 }
