@@ -34,8 +34,11 @@ class App extends StatelessWidget {
 }
 
 class AppTheme {
+  static const transparentColor = Color.fromRGBO(0, 0, 0, 0);
   static const colorText = Colors.white;
   static final lightTheme = ThemeData(
+      appBarTheme: const AppBarTheme(backgroundColor: transparentColor),
+      iconTheme: const IconThemeData(color: Colors.white),
       primaryColor: const Color.fromARGB(255, 239, 190, 130),
       scaffoldBackgroundColor: const Color.fromARGB(255, 239, 190, 130),
       textTheme: const TextTheme(
@@ -50,6 +53,7 @@ class AppTheme {
 
   static final darkTheme = ThemeData(
       primaryColor: Colors.grey.shade900,
+      appBarTheme: const AppBarTheme(backgroundColor: transparentColor),
       scaffoldBackgroundColor: Colors.grey.shade900,
       textTheme: const TextTheme(
         headlineLarge: TextStyle(

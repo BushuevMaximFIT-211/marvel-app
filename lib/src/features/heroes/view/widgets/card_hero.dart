@@ -1,12 +1,7 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroes_repository/heroes_repository.dart';
-
 import 'image_hero.dart';
-import '../../../../../main.dart';
-import '../../../detailed_heroes/view/detailed_hero_page.dart';
 
 class CardHero extends ConsumerWidget {
   final HeroMarvel hero;

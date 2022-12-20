@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ImageHero extends StatelessWidget {
   final String imgUrl;
@@ -17,7 +18,7 @@ class ImageHero extends StatelessWidget {
           const Center(child: CircularProgressIndicator()),
       errorWidget: (context, url, error) => Center(
           child: Text(
-        'Loading error.\nCheck your Internet conection',
+        AppLocalizations.of(context)!.loading_img_error,
         style: Theme.of(context).textTheme.headlineLarge,
       )),
     );

@@ -5,6 +5,7 @@ import 'package:heroes_repository/heroes_repository.dart';
 import 'package:marvel_app/main.dart';
 import 'package:marvel_app/src/features/heroes/view/heroes_page.dart';
 import 'package:marvel_app/src/features/heroes/view/widgets/image_hero.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final heroProvider = FutureProvider<HeroMarvel>(((ref) async {
   final id = ref.watch(curentIDStateProvider);
@@ -12,7 +13,7 @@ final heroProvider = FutureProvider<HeroMarvel>(((ref) async {
   final connectionResult = await connectivity.checkConnectivity();
   final heroList = ref.watch(heroListProvider);
   HeroMarvel hero = heroList.firstWhere((hero) => hero.id == id);
-  if (hero.info == null && connectionResult != ConnectivityResult.none) {
+  if (connectionResult != ConnectivityResult.none) {
     hero.info =
         await ref.watch(heroesRepositoryProvider).fetchDescriptionHeroById(id);
     ref.watch(localDataStorageProvider).updateValue(id, hero.info);
@@ -47,9 +48,7 @@ class _DetailedHeroPageState extends ConsumerState<ConsumerStatefulWidget> {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               centerTitle: true,
-              backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
               elevation: 0,
-              iconTheme: const IconThemeData(color: Colors.white),
             ),
             body: Stack(alignment: AlignmentDirectional.bottomStart, children: [
               Hero(tag: hero.id, child: ImageHero(imgUrl: hero.getPath())),
@@ -57,9 +56,9 @@ class _DetailedHeroPageState extends ConsumerState<ConsumerStatefulWidget> {
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
                     hero.info == ''
-                        ? 'Hello! My name is ${hero.name} and I am character of Marvel.'
+                        ? AppLocalizations.of(context)!
+                            .default_description(hero.name)
                         : hero.info.toString(),
-                    // textDirection: TextDirection.,
                     style: Theme.of(context).textTheme.bodySmall),
               ),
             ]),
