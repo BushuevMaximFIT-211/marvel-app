@@ -11,12 +11,7 @@ class CardHero extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
-        color: Theme.of(context).primaryColor,
-        clipBehavior: Clip.antiAlias,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(24)),
-        ),
-        child: HeroWidget(hero: hero));
+        color: Theme.of(context).primaryColor, child: HeroWidget(hero: hero));
   }
 }
 

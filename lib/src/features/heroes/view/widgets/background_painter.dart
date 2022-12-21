@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BackgroundPainter extends CustomPainter {
   final int indexColor;
   final List<Color> colorList = const [
-    Color.fromARGB(255, 63, 175, 190),
+    Color.fromARGB(255, 73, 167, 180),
     Color.fromARGB(255, 25, 138, 74),
     Color.fromARGB(255, 189, 194, 61),
     Color.fromARGB(255, 106, 33, 162),
