@@ -26,12 +26,12 @@ dependencies:
     path: ./packages/local_data_storage
   crypto: ^3.0.2
   connectivity_plus: ^3.0.2
-  firebase_messaging: ^14.1.4
+  firebase_messaging: ^14.2.0
   firebase_core: ^2.4.0
   flutter_localizations: 
     sdk: flutter
   intl: ^0.17.0
-  auto_direction: ^0.0.6
+  
   
 
 flutter_icons:

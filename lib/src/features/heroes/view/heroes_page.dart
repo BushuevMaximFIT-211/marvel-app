@@ -102,6 +102,7 @@ class _HeroesPageState extends ConsumerState<ConsumerStatefulWidget> {
                 painter: BackgroundPainter(currentIndex, primaryColor),
                 child: Column(
                   children: [
+                    const SizedBox(height: 12),
                     const Center(child: LogoMarvel()),
                     Text(
                       AppLocalizations.of(context)!.title,
