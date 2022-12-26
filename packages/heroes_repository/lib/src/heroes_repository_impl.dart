@@ -1,12 +1,8 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:heroes_repository/src/models/hero_marvel.dart';
 import 'package:heroes_repository/src/heroes_repository.dart';
 import 'package:api_client/api_client.dart';
-// ignore: depend_on_referenced_packages
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
-
-import 'package:shared_preferences/shared_preferences.dart';
 
 enum _HeroesEndpoint {
   listCharacters('/v1/public/characters'),
@@ -19,88 +15,52 @@ enum _HeroesEndpoint {
 
 class HeroesRepositoryImpl implements HeroesRepository {
   final ApiClient _apiClient;
-  final String publicKey;
-  final String privateKey;
+  final String _publicKey;
+  final String _privateKey;
   String getHash() {
-    return '$ts$privateKey$publicKey';
+    return '$_ts$_privateKey$_publicKey';
   }
 
-  final ts = DateTime.now().millisecondsSinceEpoch;
+  final _ts = DateTime.now().millisecondsSinceEpoch;
 
-  HeroesRepositoryImpl(this.publicKey, this.privateKey,
+  HeroesRepositoryImpl(this._publicKey, this._privateKey,
       {required ApiClient apiClient})
-      : assert(publicKey.isNotEmpty, 'Api key must not be empty'),
+      : assert(_publicKey.isNotEmpty, 'Api key must not be empty'),
         _apiClient = apiClient;
 
   @override
-  Future<void> fetchDecription(HeroMarvel hero) async {
+  Future<String> fetchDescriptionHeroById(int id) async {
     final response = await _apiClient.dio.get(
-        _HeroesEndpoint.characterById.endpoint + hero.id.toString(),
+        _HeroesEndpoint.characterById.endpoint + id.toString(),
         queryParameters: {
-          'characterId': hero.id,
-          'apikey': publicKey,
-          'ts': ts,
+          'characterId': id,
+          'apikey': _publicKey,
+          'ts': _ts,
           'hash': md5.convert(utf8.encode(getHash())).toString()
         });
-    final String description =
-        response.data['data']['results'][0]['description'];
-    hero.info = description;
-    updateValue(hero.id, description);
+
+    final info = response.data['data']['results'][0]['description'];
+    return info;
   }
 
   @override
-  Future<List<HeroMarvel>?> fetchHeroList() async {
-    final Connectivity connectivity = Connectivity();
-    List<HeroMarvel>? characterList;
-    ConnectivityResult connectivityResult =
-        await connectivity.checkConnectivity();
-    final localData = await getValue() as String?;
-
+  Future<List<HeroMarvel>> fetchHeroList() async {
+    List<HeroMarvel> characterList = [];
     final List<dynamic> result;
-    if (connectivityResult == ConnectivityResult.none && localData != null) {
-      result = jsonDecode(localData);
-    } else {
-      final response = await _apiClient.dio
-          .get(_HeroesEndpoint.listCharacters.endpoint, queryParameters: {
-        'orderBy': '-name',
-        'comics': 66397,
-        'limit': 5,
-        'apikey': publicKey,
-        'ts': ts,
-        'hash': md5.convert(utf8.encode(getHash())).toString()
-      });
+    final response = await _apiClient.dio
+        .get(_HeroesEndpoint.listCharacters.endpoint, queryParameters: {
+      'orderBy': '-name',
+      'comics': 66397,
+      'limit': 5,
+      'apikey': _publicKey,
+      'ts': _ts,
+      'hash': md5.convert(utf8.encode(getHash())).toString()
+    });
 
-      result = ResponseMapper.fromJson(response.data).heroes;
-      await saveValue(json.encode(result));
-    }
+    result = ResponseMapper.fromJson(response.data).heroes;
 
     characterList = result.map((e) => HeroMarvel.fromJson(e)).toList();
 
     return characterList;
-  }
-
-  updateValue(int index, String description) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    final localData = getValue() as String;
-    final characterList = jsonDecode(localData)
-        .map((e) => HeroMarvel.fromJson(e))
-        .toList() as List<HeroMarvel>;
-    HeroMarvel hero = characterList[index];
-    hero.info = description;
-    final jsonData = jsonEncode(characterList.map((e) => e.toJson()).toList());
-    prefs.setString('json_data', jsonData);
-  }
-
-  saveValue(String value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('json_data', value);
-  }
-
-  getValue() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String? stringValue = prefs.getString('json_data');
-    return stringValue;
   }
 }

@@ -1,33 +1,81 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:heroes_repository/heroes_repository.dart';
 import 'package:marvel_app/main.dart';
 import 'package:flutter/material.dart';
+import '../../detailed_heroes/view/detailed_hero_page.dart';
 import 'widgets/background_painter.dart';
 import 'widgets/card_hero.dart';
 import 'widgets/logo_marvel.dart';
 import 'widgets/text_app.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-final heroesProvider = FutureProvider((ref) {
+final heroesProvider = FutureProvider((ref) async {
   final heroesRepository = ref.watch(heroesRepositoryProvider);
+  final storage = ref.watch(localDataStorageProvider);
+  final connectivity = ref.read(connectivityProvider);
 
-  final heroes = heroesRepository.fetchHeroList();
+  Future<List<HeroMarvel>> heroes;
+  final connectionResult = await connectivity.checkConnectivity();
+  if (connectionResult != ConnectivityResult.none) {
+    heroes = heroesRepository.fetchHeroList();
+    heroes.then((value) {
+      storage.saveValue(value);
+    });
+  } else {
+    heroes = storage.getValue();
+  }
+  heroes.then((value) => ref.read(heroListProvider.notifier).state = value);
 
   return heroes;
 });
-
-final curentIndexStateProvider = StateProvider<int>((ref) {
+final curentHeroProvider = StateProvider<HeroMarvel?>((ref) => null);
+final _curentIndexStateProvider = StateProvider<int>((ref) {
   return 0;
 });
 
-class HeroesPage extends ConsumerWidget {
+final curentIDStateProvider = StateProvider<int>((ref) {
+  return 1009718;
+});
+
+final heroListProvider = StateProvider<List<HeroMarvel>>((ref) => []);
+
+class HeroesPage extends ConsumerStatefulWidget {
   static const routeName = '/heroes';
 
   const HeroesPage({super.key});
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _HeroesPageState();
+}
+
+class _HeroesPageState extends ConsumerState<ConsumerStatefulWidget> {
+  late HeroMarvel hero;
+  late int indexPage;
+  @override
+  void initState() {
+    indexPage = 0;
+
+    super.initState();
+    FirebaseMessaging.instance.getInitialMessage();
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      ref.read(curentIDStateProvider.notifier).state =
+          int.parse(message.data['id']);
+      Navigator.of(context).pushNamed(DetailedHeroPage.routeName);
+    });
+  }
+
+  Future<void> _goToDetailsPage(BuildContext context, int id) async {
+    Feedback.forLongPress(context);
+
+    Navigator.of(context).pushNamed(DetailedHeroPage.routeName);
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final heroesList = ref.watch(heroesProvider);
-    int currentIndex = ref.watch(curentIndexStateProvider);
+    int currentIndex = ref.watch(_curentIndexStateProvider);
 
     return Scaffold(
         body: heroesList.when(
@@ -47,31 +95,39 @@ class HeroesPage extends ConsumerWidget {
                     ),
                   ),
                 ),
-            data: ((data) => CustomPaint(
-                  painter: BackgroundPainter(currentIndex),
-                  child: Column(
-                    children: [
-                      const LogoMarvel(),
-                      const TextApp(text: 'Choose your hero'),
-                      const SizedBox(
-                        height: 40,
+            data: ((data) {
+              return CustomPaint(
+                painter: BackgroundPainter(currentIndex),
+                child: Column(
+                  children: [
+                    const LogoMarvel(),
+                    const TextApp(text: 'Choose your hero'),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    CarouselSlider.builder(
+                      itemCount: data.length,
+                      options: CarouselOptions(
+                        height: 555,
+                        enableInfiniteScroll: false,
+                        enlargeCenterPage: true,
+                        onPageChanged: (index, reason) {
+                          ref.read(_curentIndexStateProvider.notifier).state =
+                              index;
+                        },
                       ),
-                      CarouselSlider.builder(
-                        itemCount: data?.length,
-                        options: CarouselOptions(
-                          height: 555,
-                          enableInfiniteScroll: false,
-                          enlargeCenterPage: true,
-                          onPageChanged: (index, reason) {
-                            ref.read(curentIndexStateProvider.notifier).state =
-                                index;
-                          },
-                        ),
-                        itemBuilder: (context, index, realIndex) =>
-                            CardHero(hero: data![index]),
-                      ),
-                    ],
-                  ),
-                ))));
+                      itemBuilder: (context, index, realIndex) =>
+                          GestureDetector(
+                              onLongPress: () {
+                                ref.read(curentIDStateProvider.notifier).state =
+                                    data[index].id;
+                                _goToDetailsPage(context, data[index].id);
+                              },
+                              child: CardHero(hero: data[index])),
+                    ),
+                  ],
+                ),
+              );
+            })));
   }
 }

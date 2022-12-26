@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "700613953076",
+    "project_id": "marvel-be893",
+    "storage_bucket": "marvel-be893.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700613953076:android:2296805f14566c6f356c61",
+        "android_client_info": {
+          "package_name": "com.example.marvel_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "700613953076-enait3ue9do8rjo4i6429kq25tvl6740.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOj_ZEKIZSHXoe23noClpel_STdta0M7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700613953076-enait3ue9do8rjo4i6429kq25tvl6740.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "700613953076-uosqiq3o3of7jrg404tu1l8618pcah08.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.marvelApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
